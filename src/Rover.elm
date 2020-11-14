@@ -13,6 +13,7 @@ type Orientation =
 
 type RobotPosition = 
     Known Location Orientation
+    | Lost Location
 
 type RobotInstruction = 
     Forward
@@ -35,7 +36,7 @@ updateKnownRobotPosition location orientation robotInstruction=
         RotateRight ->
             Known location (rotateRight orientation)
         Forward ->
-            Known (forward location orientation) orientation
+            forward location orientation
 
 
 rotateLeft : Orientation -> Orientation
@@ -62,8 +63,12 @@ rotateRight orientation =
         West ->
             North
 
-forward : Location -> Orientation -> Location
+forward : Location -> Orientation -> RobotPosition
 forward location orientation =
+    Known (provisionalLocation location orientation) orientation
+
+provisionalLocation : Location -> Orientation -> Location
+provisionalLocation location orientation =
     case orientation of
         North ->
             { location | y = location.y + 1 }

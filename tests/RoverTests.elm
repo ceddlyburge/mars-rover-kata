@@ -174,6 +174,12 @@ F"""
                 |> Expect.equal 
                     "1 2 N"
 
+        , test "output lost robot final position" <|
+            \() ->
+                outputRobotPosition (Lost (Location 3 3) North) 
+                |> Expect.equal 
+                    "3 3 N LOST"
+
         , test "parse mars rover inputs" <|
             \() ->
                 Parser.run inputsParser """5 3

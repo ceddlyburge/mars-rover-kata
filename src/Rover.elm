@@ -173,7 +173,7 @@ robotsParser : Parser (List Robot)
 robotsParser =
     Parser.sequence
         { start = ""
-        , separator = ","
+        , separator = ""
         , end = ""
         , spaces = Parser.spaces
         , item = robotParser

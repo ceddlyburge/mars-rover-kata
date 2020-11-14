@@ -58,17 +58,17 @@ tests =
         , test "moving to y < 0 results in robot becoming lost, with last known position retained" <|
             \() ->
                 updateKnownRobotPosition bigMars (Location 1 0) South Forward noScents
-                |> Expect.equal (Lost <| Location 1 0)
+                |> Expect.equal (Lost (Location 1 0) South)
 
         , test "moving to x > mars right results in robot becoming lost, with last known position retained" <|
             \() ->
                 updateKnownRobotPosition (Mars 1 3) (Location 1 2) East Forward noScents
-                |> Expect.equal (Lost <| Location 1 2)
+                |> Expect.equal (Lost (Location 1 2) East)
 
         , test "lost robot remains lost, with last known position retained" <|
             \() ->
-                updateRobotPosition anyMars  noScents anyRobotInstruction (Lost anyLocation)
-                |> Expect.equal (Lost anyLocation)
+                updateRobotPosition anyMars noScents anyRobotInstruction (Lost anyLocation anyOrientation)
+                |> Expect.equal (Lost anyLocation anyOrientation)
 
         , test "scent prevents robot moving to y < 0 lost position" <|
             \() ->
@@ -83,7 +83,6 @@ tests =
                     firstSampleRobotInstructions
                 |> Expect.equal firstSampleRobotFinalPosition
 
-        -- didn't notice that final robot position included orientation, need to add
         , test "robot 2 sample case (becomes lost)" <|
             \() ->
                 updateRobot 
@@ -128,7 +127,6 @@ secondSampleRobotInitialPosition =
     Known (Location 3 2) North
 
 
---FRRFLLFFRRFLL
 firstSampleRobotInstructions : List RobotInstruction
 firstSampleRobotInstructions = 
     [ RotateRight
@@ -164,7 +162,7 @@ firstSampleRobotFinalPosition =
 
 secondSampleRobotFinalPosition : RobotPosition 
 secondSampleRobotFinalPosition = 
-    Lost (Location 3 3) -- North
+    Lost (Location 3 3) North
 
 smallLocation: Location
 smallLocation = 

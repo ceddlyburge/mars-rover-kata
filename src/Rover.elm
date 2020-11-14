@@ -20,7 +20,7 @@ type Orientation =
 
 type RobotPosition = 
     Known Location Orientation
-    | Lost Location
+    | Lost Location Orientation
 
 type RobotInstruction = 
     Forward
@@ -43,8 +43,8 @@ updateRobotPosition mars scents robotInstruction robotPosition =
     case robotPosition of
         Known location orientation ->
             updateKnownRobotPosition mars location orientation robotInstruction scents
-        Lost location ->
-            Lost location
+        Lost location orientation ->
+            Lost location orientation
 
 
 updateKnownRobotPosition : Mars -> Location -> Orientation -> RobotInstruction -> List Location -> RobotPosition
@@ -91,7 +91,7 @@ forward mars location orientation scents =
             if isLocationScented location scents then
                 Known location orientation
             else 
-                Lost location
+                Lost location orientation
         else
             Known robotProvisionalLocation orientation
 

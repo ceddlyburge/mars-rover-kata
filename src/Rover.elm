@@ -1,5 +1,10 @@
 module Rover exposing (..)
 
+type alias Mars = {
+    right: Int,
+    upper: Int
+    }
+
 type alias Location = {
     x: Int,
     y: Int
@@ -28,15 +33,15 @@ rove inputs =
 2 3 S """
 
 -- this will need to take a parameter to represent mars later (to check if robots become lost)
-updateKnownRobotPosition : Location -> Orientation -> RobotInstruction -> RobotPosition
-updateKnownRobotPosition location orientation robotInstruction=
+updateKnownRobotPosition : Mars -> Location -> Orientation -> RobotInstruction -> RobotPosition
+updateKnownRobotPosition mars location orientation robotInstruction=
     case robotInstruction of
         RotateLeft ->
             Known location (rotateLeft orientation)
         RotateRight ->
             Known location (rotateRight orientation)
         Forward ->
-            forward location orientation
+            forward mars location orientation
 
 
 rotateLeft : Orientation -> Orientation
@@ -63,15 +68,23 @@ rotateRight orientation =
         West ->
             North
 
-forward : Location -> Orientation -> RobotPosition
-forward location orientation =
+forward : Mars -> Location -> Orientation -> RobotPosition
+forward mars location orientation =
     let 
         robotProvisionalLocation = provisionalLocation location orientation
     in
-        if (robotProvisionalLocation.x < 0 || robotProvisionalLocation.y < 0) then
+        if isLocationLost mars robotProvisionalLocation then
             Lost location
         else
             Known robotProvisionalLocation orientation
+
+isLocationLost : Mars -> Location -> Bool
+isLocationLost mars location =
+    location.x < 0 
+    || location.y < 0
+    || location.x > mars.right -- might be >=
+    || location.y > mars.upper -- might be >=
+
 
 provisionalLocation : Location -> Orientation -> Location
 provisionalLocation location orientation =

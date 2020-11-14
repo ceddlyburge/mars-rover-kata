@@ -40,22 +40,22 @@ tests =
     describe "rove"
         [ test "rotate left instruction should rotate orienation by -90 degrees (anticlockwise)" <|
             \() ->
-                updateKnownRobotPosition anyLocation North RotateLeft
-                |> Expect.equal (Known anyLocation West)
+                updateKnownRobotPosition bigMars smallLocation North RotateLeft
+                |> Expect.equal (Known smallLocation West)
         
         , test "rotate right instruction should rotate orienation by 90 degrees (clockwise)" <|
             \() ->
-                updateKnownRobotPosition anyLocation East RotateRight
-                |> Expect.equal (Known anyLocation South)
+                updateKnownRobotPosition bigMars smallLocation East RotateRight
+                |> Expect.equal (Known smallLocation South)
         
         , test "forward instruction with North should increase y" <|
             \() ->
-                updateKnownRobotPosition anyLocation North Forward
-                |> Expect.equal (Known { anyLocation | y = anyLocation.y + 1 } North)
+                updateKnownRobotPosition bigMars smallLocation North Forward
+                |> Expect.equal (Known { smallLocation | y = smallLocation.y + 1 } North)
         
         , test "moving to y < 0 results in robot becoming lost, with last known position retained" <|
             \() ->
-                updateKnownRobotPosition (Location 1 0) South Forward
+                updateKnownRobotPosition bigMars (Location 1 0) South Forward
                 |> Expect.equal (Lost <| Location 1 0)
 
         , test "moving to x > mars right results in robot becoming lost, with last known position retained" <|
@@ -76,10 +76,15 @@ LLFFFLFLFL"""
 
 3 3 N LOST
 2 3 S """
-            
         ]
+            
 
-anyLocation: Location
-anyLocation = 
+bigMars: Mars
+bigMars = 
+    Mars 100 100
+        
+
+smallLocation: Location
+smallLocation = 
     Location 0 0
 

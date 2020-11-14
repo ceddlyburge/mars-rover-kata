@@ -65,7 +65,13 @@ rotateRight orientation =
 
 forward : Location -> Orientation -> RobotPosition
 forward location orientation =
-    Known (provisionalLocation location orientation) orientation
+    let 
+        robotProvisionalLocation = provisionalLocation location orientation
+    in
+        if (robotProvisionalLocation.x < 0 || robotProvisionalLocation.y < 0) then
+            Lost location
+        else
+            Known robotProvisionalLocation orientation
 
 provisionalLocation : Location -> Orientation -> Location
 provisionalLocation location orientation =

@@ -3,6 +3,7 @@ module Rover exposing (..)
 import List
 import List.Extra
 import Parser exposing (Parser, (|=), (|.))
+import String
 
 type alias Inputs = {
     mars: Mars,
@@ -44,7 +45,7 @@ rove inputs =
     """1 1 E
 
 3 3 N LOST
-2 3 S """
+2 3 S"""
 
 -- The mapAccuml is quite complicated, might be better to pattern match the list
 -- This would also allow the introduction of a type to represent the return value
@@ -237,3 +238,22 @@ robotInstructionParser =
         , Parser.map (always RotateRight) (Parser.token "R")
         ]
 
+outputRobotPosition : RobotPosition -> String
+outputRobotPosition robotPosition = 
+    case robotPosition of
+        Known location orientation ->
+            String.fromInt(location.x) ++ " " ++ String.fromInt(location.y) ++ " " ++ outputOrientation(orientation)
+        Lost location orientation ->
+            ""
+
+outputOrientation : Orientation -> String
+outputOrientation orientation = 
+    case orientation of
+        North ->
+            "N"
+        East ->
+            "E"
+        South ->
+            "S"
+        West ->
+            "W"

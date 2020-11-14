@@ -91,6 +91,14 @@ tests =
                     secondSampleRobotInstructions
                 |> Expect.equal secondSampleRobotFinalPosition
 
+        , test "robot 3 sample case (probably prevented from becoming lost by a scent)" <|
+            \() ->
+                updateRobot 
+                    sampleMars 
+                    thirdSampleRobotInitialPosition 
+                    thirdSampleRobotInstructions
+                |> Expect.equal thirdSampleRobotFinalPosition
+
         , test "sample data should return sample outputs" <|
             \() ->
                 rove """5 3
@@ -126,6 +134,9 @@ secondSampleRobotInitialPosition : RobotPosition
 secondSampleRobotInitialPosition =
     Known (Location 3 2) North
 
+thirdSampleRobotInitialPosition : RobotPosition 
+thirdSampleRobotInitialPosition =
+    Known (Location 0 3) West
 
 firstSampleRobotInstructions : List RobotInstruction
 firstSampleRobotInstructions = 
@@ -156,6 +167,23 @@ secondSampleRobotInstructions =
     , RotateLeft
     ]
 
+
+
+thirdSampleRobotInstructions : List RobotInstruction
+thirdSampleRobotInstructions = 
+    [ RotateLeft
+    , RotateLeft
+    , Forward
+    , Forward
+    , Forward
+    , RotateLeft
+    , Forward
+    , RotateLeft
+    , Forward
+    , RotateLeft
+    ]
+
+
 firstSampleRobotFinalPosition : RobotPosition 
 firstSampleRobotFinalPosition = 
     Known (Location 1 1) East
@@ -163,6 +191,10 @@ firstSampleRobotFinalPosition =
 secondSampleRobotFinalPosition : RobotPosition 
 secondSampleRobotFinalPosition = 
     Lost (Location 3 3) North
+
+thirdSampleRobotFinalPosition : RobotPosition 
+thirdSampleRobotFinalPosition = 
+    Known (Location 2 3) South
 
 smallLocation: Location
 smallLocation = 

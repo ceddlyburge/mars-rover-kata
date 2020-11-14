@@ -35,15 +35,19 @@ import Rover exposing (..)
 -- output of known position of robot (for final output)
 -- output of lost position of robot, including last know position (for final output)
 
-
 tests : Test
 tests =
     describe "rove"
         [ test "rotate left instruction should rotate orienation by -90 degrees (anticlockwise)" <|
             \() ->
-                updateKnownRobotPosition (Location 1 2) North RotateLeft
-                |> Expect.equal (Known (Location 1 2) West)
-            
+                updateKnownRobotPosition anyLocation North RotateLeft
+                |> Expect.equal (Known anyLocation West)
+        
+        , test "rotate right instruction should rotate orienation by 90 degrees (clockwise)" <|
+            \() ->
+                updateKnownRobotPosition anyLocation East RotateRight
+                |> Expect.equal (Known anyLocation South)
+        
         , test "sample data should return sample outputs" <|
             \() ->
                 rove """5 3
@@ -59,3 +63,8 @@ LLFFFLFLFL"""
 2 3 S """
             
         ]
+
+anyLocation: Location
+anyLocation = 
+    Location 0 0
+

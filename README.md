@@ -4,11 +4,11 @@
 
 ## Instructions
 
-2- 3 hours
-kiss
-use the sample data
-do the hard things first
-commit frequently
+- 2- 3 hours
+- kiss
+- use the sample data
+- do the hard things first
+- commit frequently
 
 ## Usage
 

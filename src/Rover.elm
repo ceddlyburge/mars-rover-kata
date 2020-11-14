@@ -35,7 +35,7 @@ updateKnownRobotPosition location orientation robotInstruction=
         RotateRight ->
             Known location (rotateRight orientation)
         Forward ->
-            Known location orientation
+            Known (forward location orientation) orientation
 
 
 rotateLeft : Orientation -> Orientation
@@ -61,3 +61,15 @@ rotateRight orientation =
             West
         West ->
             North
+
+forward : Location -> Orientation -> Location
+forward location orientation =
+    case orientation of
+        North ->
+            { location | y = location.y + 1 }
+        East ->
+            { location | x = location.x + 1 }
+        South ->
+            { location | y = location.y - 1 }
+        West ->
+            { location | x = location.x - 1 }

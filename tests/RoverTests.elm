@@ -36,7 +36,7 @@ import Rover exposing (..)
 -- done: parse mars
 -- done: parse initial position of robot in to type
 -- done: parse robot instructions in to type
--- parse all inputs
+-- done: parse all inputs
 -- output of known position of robot (for final output)
 -- output of lost position of robot, including last know position (for final output)
 
@@ -168,6 +168,12 @@ F"""
                         ]
                     )
 
+        , test "output known robot final position" <|
+            \() ->
+                outputRobotPosition (Known (Location 1 2) North) 
+                |> Expect.equal 
+                    "1 2 N"
+
         , test "parse mars rover inputs" <|
             \() ->
                 Parser.run inputsParser """5 3
@@ -202,7 +208,7 @@ LLFFFLFLFL"""
                 |> Expect.equal """1 1 E
 
 3 3 N LOST
-2 3 S """
+2 3 S"""
         ]
             
 sampleMars: Mars

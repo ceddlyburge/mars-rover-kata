@@ -4,6 +4,7 @@ install:
  - node --version
  - npm --version
  - npm install
+build: off
 test_script:
  - npm test
  

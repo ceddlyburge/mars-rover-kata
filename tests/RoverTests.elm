@@ -55,8 +55,13 @@ tests =
         
         , test "moving to y < 0 results in robot becoming lost, with last known position retained" <|
             \() ->
-                updateKnownRobotPosition (Location 0 0) South Forward
-                |> Expect.equal (Lost <| Location 0 0)
+                updateKnownRobotPosition (Location 1 0) South Forward
+                |> Expect.equal (Lost <| Location 1 0)
+
+        , test "moving to x > mars right results in robot becoming lost, with last known position retained" <|
+            \() ->
+                updateKnownRobotPosition (Mars 1 3) (Location 1 2) East Forward
+                |> Expect.equal (Lost <| Location 1 2)
 
         , test "sample data should return sample outputs" <|
             \() ->

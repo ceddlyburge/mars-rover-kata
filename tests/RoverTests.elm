@@ -75,13 +75,22 @@ tests =
                 updateKnownRobotPosition bigMars (Location 1 0) South Forward [ Location 1 0 ]
                 |> Expect.equal (Known (Location 1 0) South)
 
-        , test "apply a list of instructions to a robot" <|
+        , test "robot 1 sample case (remains known)" <|
             \() ->
                 updateRobot 
                     sampleMars 
                     firstSampleRobotInitialPosition 
                     firstSampleRobotInstructions
                 |> Expect.equal firstSampleRobotFinalPosition
+
+        -- didn't notice that final robot position included orientation, need to add
+        , test "robot 2 sample case (becomes lost)" <|
+            \() ->
+                updateRobot 
+                    sampleMars 
+                    secondSampleRobotInitialPosition 
+                    secondSampleRobotInstructions
+                |> Expect.equal secondSampleRobotFinalPosition
 
         , test "sample data should return sample outputs" <|
             \() ->
@@ -114,6 +123,12 @@ firstSampleRobotInitialPosition : RobotPosition
 firstSampleRobotInitialPosition =
     Known (Location 1 1) East
 
+secondSampleRobotInitialPosition : RobotPosition 
+secondSampleRobotInitialPosition =
+    Known (Location 3 2) North
+
+
+--FRRFLLFFRRFLL
 firstSampleRobotInstructions : List RobotInstruction
 firstSampleRobotInstructions = 
     [ RotateRight
@@ -126,9 +141,30 @@ firstSampleRobotInstructions =
     , Forward
     ]
 
+secondSampleRobotInstructions : List RobotInstruction
+secondSampleRobotInstructions = 
+    [ Forward
+    , RotateRight
+    , RotateRight
+    , Forward
+    , RotateLeft
+    , RotateLeft
+    , Forward
+    , Forward
+    , RotateRight
+    , RotateRight
+    , Forward
+    , RotateLeft
+    , RotateLeft
+    ]
+
 firstSampleRobotFinalPosition : RobotPosition 
 firstSampleRobotFinalPosition = 
     Known (Location 1 1) East
+
+secondSampleRobotFinalPosition : RobotPosition 
+secondSampleRobotFinalPosition = 
+    Lost (Location 3 3) -- North
 
 smallLocation: Location
 smallLocation = 

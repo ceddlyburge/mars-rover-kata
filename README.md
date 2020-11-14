@@ -8,6 +8,12 @@ use the sample data
 do the hard things first
 commit frequently
 
+## Usage
+
+- npm install
+- npm test
+- (the "sample data should return sample outputs" test is the one that implements the kata)
+
 ## Taking it further
 
 It might be better to have separate types for the inputs and for the domain. This would allow Location to have a Mars property, which makes logical sense, and would probably mean less parameters to pass around. It would also stop an invalid combination of Mars and Location being used together.

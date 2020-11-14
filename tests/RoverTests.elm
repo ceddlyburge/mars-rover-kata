@@ -95,8 +95,9 @@ tests =
             \() ->
                 updateRobots 
                     sampleMars 
-                    [secondSampleRobotInitialPosition, thirdSampleRobotInitialPosition]
-                    [secondSampleRobotInstructions, thirdSampleRobotInstructions]
+                    [ Robot secondSampleRobotInitialPosition secondSampleRobotInstructions
+                    , Robot thirdSampleRobotInitialPosition thirdSampleRobotInstructions
+                    ]
                 |> Expect.equal 
                     [ secondSampleRobotFinalPosition
                     , thirdSampleRobotFinalPosition

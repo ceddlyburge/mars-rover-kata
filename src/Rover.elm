@@ -19,6 +19,11 @@ type Orientation =
     | South
     | West
 
+type alias Robot = {
+    initialPosition: RobotPosition,
+    instructions: List RobotInstruction
+    }
+
 type RobotPosition = 
     Known Location Orientation
     | Lost Location Orientation
@@ -35,8 +40,8 @@ rove inputs =
 3 3 N LOST
 2 3 S """
 
-updateRobots : Mars -> List RobotPosition -> List (List RobotInstruction) -> List RobotPosition
-updateRobots mars initialPositionsForRobots instructionsForRobots =
+updateRobots : Mars -> List Robot -> List RobotPosition
+updateRobots mars robots =
     []
     
     

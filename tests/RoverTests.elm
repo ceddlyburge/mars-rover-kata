@@ -28,9 +28,9 @@ import Rover exposing (..)
 -- done: update robot position and scent from lost position, becoming lost, make sure last known position is retained
 -- done: update robot position and scent from existing position, existing scents and instruction
 -- done: update robot position and scent from existing position, existing scents and instruction, becoming lost, make sure last known position is recorded
--- Apply list of instructions to a robot, from an initial position
--- Apply list of instructions to list of robots, from a list of initial positions
--- calculate scents from last known locations of lost robots
+-- done: Apply list of instructions to a robot, from an initial position
+-- done: Apply list of instructions to list of robots, from a list of initial positions
+-- done, although not well tested: calculate scents from last known locations of lost robots
 -- parse size of grid in to type (0,0) is assumed
 -- parse initial position of robot in to type
 -- parse robot instructions in to type
@@ -127,6 +127,12 @@ tests =
                     , thirdSampleRobotFinalPosition
                     ]
 
+        , test "parse Mars" <|
+            \() ->
+                parseMars "5 3"
+                |> Expect.equal 
+                    Mars 5 3
+                    
         , test "sample data should return sample outputs" <|
             \() ->
                 rove """5 3

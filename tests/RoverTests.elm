@@ -23,7 +23,7 @@ import Rover exposing (..)
 
 -- ## tests
 -- slimed: sample data for test (input to output)
--- update robot position existing position and instruction (ignore scents)
+-- in progress: update robot position existing position and instruction (ignore scents)
 -- parse size of grid in to type (0,0) is assumed
 -- parse initial position of robot in to type
 -- parse robot instructions in to type
@@ -47,6 +47,11 @@ tests =
             \() ->
                 updateKnownRobotPosition anyLocation East RotateRight
                 |> Expect.equal (Known anyLocation South)
+        
+        , test "forward instruction with North should increase y" <|
+            \() ->
+                updateKnownRobotPosition anyLocation North Forward
+                |> Expect.equal (Known { anyLocation | y = anyLocation.y + 1 } North)
         
         , test "sample data should return sample outputs" <|
             \() ->

@@ -46,12 +46,27 @@ updateRobots mars robots =
         scents = []
         scentsAndFinalPositions = 
             List.Extra.mapAccuml 
-                (\scentss robot -> ([], updateRobot mars scentss robot.initialPosition robot.instructions)) 
+                (updateRobotAndScents mars)
                 scents 
                 robots
     in
         Tuple.second scentsAndFinalPositions
-    
+
+updateRobotAndScents : Mars -> List Location -> Robot -> (List Location, RobotPosition)
+updateRobotAndScents mars scents robot =
+    let
+        robotFinalPosition = updateRobot mars scents robot.initialPosition robot.instructions
+    in
+        (
+            case robotFinalPosition of 
+                Known _ _ ->
+                    scents
+                Lost location _ ->
+                    location :: scents
+            , robotFinalPosition
+        )
+
+
 
 updateRobot : Mars -> List Location -> RobotPosition -> List RobotInstruction -> RobotPosition
 updateRobot mars scents robotInitialPosition robotInstructions =

@@ -26,9 +26,11 @@ import Rover exposing (..)
 -- done (could test / fuzz more cases): update robot position existing position and instruction (ignore scents)
 -- done (could test / fuzz more cases): update robot position existing position and instruction (ignore scents), becoming lost (must update scents)
 -- done: update robot position and scent from lost position, becoming lost, make sure last known position is retained
--- update robot position and scent from existing position, existing scents and instruction
--- update robot position and scent from existing position, existing scents and instruction, becoming lost, make sure last known position is recorded
--- Aplly list of instructions to a robot, from an initial position
+-- done: update robot position and scent from existing position, existing scents and instruction
+-- done: update robot position and scent from existing position, existing scents and instruction, becoming lost, make sure last known position is recorded
+-- Apply list of instructions to a robot, from an initial position
+-- Apply list of instructions to list of robots, from a list of initial positions
+-- calculate scents from last known locations of lost robots
 -- parse size of grid in to type (0,0) is assumed
 -- parse initial position of robot in to type
 -- parse robot instructions in to type
@@ -73,6 +75,14 @@ tests =
                 updateKnownRobotPosition bigMars (Location 1 0) South Forward [ Location 1 0 ]
                 |> Expect.equal (Known (Location 1 0) South)
 
+        , test "apply a list of instructions to a robot" <|
+            \() ->
+                updateRobot 
+                    sampleMars 
+                    firstSampleRobotInitialPosition 
+                    firstSampleRobotInstructions
+                |> Expect.equal firstSampleRobotFinalPosition
+
         , test "sample data should return sample outputs" <|
             \() ->
                 rove """5 3
@@ -88,6 +98,9 @@ LLFFFLFLFL"""
 2 3 S """
         ]
             
+sampleMars: Mars
+sampleMars = 
+    Mars 5 3
 
 bigMars: Mars
 bigMars = 
@@ -96,6 +109,26 @@ bigMars =
 anyMars: Mars
 anyMars = 
     Mars 1 1
+
+firstSampleRobotInitialPosition : RobotPosition 
+firstSampleRobotInitialPosition =
+    Known (Location 1 1) East
+
+firstSampleRobotInstructions : List RobotInstruction
+firstSampleRobotInstructions = 
+    [ RotateRight
+    , Forward
+    , RotateRight
+    , Forward
+    , RotateRight
+    , Forward
+    , RotateRight
+    , Forward
+    ]
+
+firstSampleRobotFinalPosition : RobotPosition 
+firstSampleRobotFinalPosition = 
+    Known (Location 1 1) East
 
 smallLocation: Location
 smallLocation = 

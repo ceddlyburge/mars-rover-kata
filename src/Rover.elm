@@ -32,9 +32,17 @@ rove inputs =
 3 3 N LOST
 2 3 S """
 
--- this will need to take a parameter to represent mars later (to check if robots become lost)
+updateRobotPosition : Mars -> RobotPosition -> RobotInstruction -> RobotPosition
+updateRobotPosition mars robotPosition robotInstruction =
+    case robotPosition of
+        Known location orientation ->
+            updateKnownRobotPosition mars location orientation robotInstruction
+        Lost location ->
+            Lost location
+
+
 updateKnownRobotPosition : Mars -> Location -> Orientation -> RobotInstruction -> RobotPosition
-updateKnownRobotPosition mars location orientation robotInstruction=
+updateKnownRobotPosition mars location orientation robotInstruction =
     case robotInstruction of
         RotateLeft ->
             Known location (rotateLeft orientation)

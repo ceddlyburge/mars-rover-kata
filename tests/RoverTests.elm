@@ -65,7 +65,7 @@ tests =
 
         , test "lost robot remains lost, with last known position retained" <|
             \() ->
-                updateRobotPosition Lost anyLocation anyOrientation anyRobotInstruction
+                updateRobotPosition anyMars (Lost anyLocation) anyRobotInstruction
                 |> Expect.equal (Lost anyLocation)
 
         , test "sample data should return sample outputs" <|
@@ -88,6 +88,9 @@ bigMars: Mars
 bigMars = 
     Mars 100 100
         
+anyMars: Mars
+anyMars = 
+    Mars 1 1
 
 smallLocation: Location
 smallLocation = 
@@ -102,7 +105,7 @@ anyOrientation: Orientation
 anyOrientation = 
     West
 
-anyRobotInstruction: Orientation
+anyRobotInstruction: RobotInstruction
 anyRobotInstruction = 
     Forward
 

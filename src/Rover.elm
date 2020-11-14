@@ -40,6 +40,9 @@ rove inputs =
 3 3 N LOST
 2 3 S """
 
+-- The mapAccuml is quite complicated, might be better to pattern match the list
+-- This would also allow the introduction of a type to represent the return value
+-- from the function (a final position and a list of scents)
 updateRobots : Mars -> List Robot -> List RobotPosition
 updateRobots mars robots =
     let
@@ -57,20 +60,20 @@ updateRobotAndScents mars scents robot =
     let
         robotFinalPosition = updateRobot mars scents robot.initialPosition robot.instructions
     in
-        (
-            case robotFinalPosition of 
-                Known _ _ ->
-                    scents
-                Lost location _ ->
-                    location :: scents
-            , robotFinalPosition
-        )
-
+        (updateScents robotFinalPosition scents, robotFinalPosition)
 
 
 updateRobot : Mars -> List Location -> RobotPosition -> List RobotInstruction -> RobotPosition
 updateRobot mars scents robotInitialPosition robotInstructions =
     List.foldl (updateRobotPosition mars scents) robotInitialPosition robotInstructions
+
+updateScents : RobotPosition -> List Location -> List Location
+updateScents robotFinalPosition scents = 
+    case robotFinalPosition of 
+        Known _ _ ->
+            scents
+        Lost location _ ->
+            location :: scents
 
 updateRobotPosition : Mars -> List Location -> RobotInstruction -> RobotPosition -> RobotPosition
 updateRobotPosition mars scents robotInstruction robotPosition =

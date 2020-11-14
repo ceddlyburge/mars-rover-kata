@@ -113,6 +113,20 @@ tests =
                     , thirdSampleRobotFinalPosition
                     ]
 
+        , test "sample case" <|
+            \() ->
+                updateRobots 
+                    sampleMars 
+                    [ Robot firstSampleRobotInitialPosition firstSampleRobotInstructions
+                    , Robot secondSampleRobotInitialPosition secondSampleRobotInstructions
+                    , Robot thirdSampleRobotInitialPosition thirdSampleRobotInstructions
+                    ]
+                |> Expect.equal 
+                    [ firstSampleRobotFinalPosition
+                    , secondSampleRobotFinalPosition
+                    , thirdSampleRobotFinalPosition
+                    ]
+
         , test "sample data should return sample outputs" <|
             \() ->
                 rove """5 3

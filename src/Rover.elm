@@ -41,11 +41,17 @@ type RobotInstruction =
     | RotateRight
 
 rove : String -> String
-rove inputs =
-    """1 1 E
-
-3 3 N LOST
-2 3 S"""
+rove stringInputs =
+    let
+        parsedInputs = Parser.run inputsParser stringInputs
+    in
+        case parsedInputs of
+            Ok inputs ->
+                updateRobots inputs.mars inputs.robots
+                |> outputRobotPositions 
+            Err _ ->
+                "Cannot parse inputs"
+        
 
 -- The mapAccuml is quite complicated, might be better to pattern match the list
 -- This would also allow the introduction of a type to represent the return value
@@ -237,6 +243,11 @@ robotInstructionParser =
         , Parser.map (always RotateLeft) (Parser.token "L")
         , Parser.map (always RotateRight) (Parser.token "R")
         ]
+
+outputRobotPositions : List RobotPosition -> String
+outputRobotPositions robotPositions = 
+    List.map outputRobotPosition robotPositions
+    |> String.join "\r\n"
 
 outputRobotPosition : RobotPosition -> String
 outputRobotPosition robotPosition = 

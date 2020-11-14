@@ -4,6 +4,11 @@ import List
 import List.Extra
 import Parser exposing (Parser, (|=), (|.))
 
+type alias Inputs = {
+    mars: Mars,
+    robots: List Robot
+    }
+
 type alias Mars = {
     right: Int,
     upper: Int
@@ -155,6 +160,33 @@ provisionalLocation location orientation =
             { location | y = location.y - 1 }
         West ->
             { location | x = location.x - 1 }
+
+inputsParser : Parser Inputs
+inputsParser = 
+    Parser.succeed Inputs
+        |= marsParser
+        |. Parser.spaces
+        |= robotsParser
+
+
+robotsParser : Parser (List Robot)
+robotsParser =
+    Parser.sequence
+        { start = ""
+        , separator = ","
+        , end = ""
+        , spaces = Parser.spaces
+        , item = robotParser
+        , trailing = Parser.Optional
+        }
+
+robotParser : Parser Robot
+robotParser =
+    Parser.succeed Robot
+        |= robotPositionParser
+        |. Parser.spaces
+        |= robotInstructionsParser
+
 
 marsParser : Parser Mars
 marsParser =

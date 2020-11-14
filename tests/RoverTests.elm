@@ -148,6 +148,13 @@ tests =
                 |> Expect.equal 
                     (Ok [ RotateLeft, RotateRight, Forward ])
 
+        , test "parse Robot" <|
+            \() ->
+                Parser.run robotParser """1 1 E
+R"""
+                |> Expect.equal 
+                    (Ok ( Robot (Known (Location 1 1) East) [ RotateRight ] ))
+
         , test "parse mars rover inputs" <|
             \() ->
                 Parser.run inputsParser """5 3

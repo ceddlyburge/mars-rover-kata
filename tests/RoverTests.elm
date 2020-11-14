@@ -79,6 +79,7 @@ tests =
             \() ->
                 updateRobot 
                     sampleMars 
+                    noScents
                     firstSampleRobotInitialPosition 
                     firstSampleRobotInstructions
                 |> Expect.equal firstSampleRobotFinalPosition
@@ -87,6 +88,7 @@ tests =
             \() ->
                 updateRobot 
                     sampleMars 
+                    noScents
                     secondSampleRobotInitialPosition 
                     secondSampleRobotInstructions
                 |> Expect.equal secondSampleRobotFinalPosition

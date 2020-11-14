@@ -42,13 +42,20 @@ rove inputs =
 
 updateRobots : Mars -> List Robot -> List RobotPosition
 updateRobots mars robots =
-    []
-    
+    let
+        scents = []
+        scentsAndFinalPositions = 
+            List.Extra.mapAccuml 
+                (\scentss robot -> ([], updateRobot mars scentss robot.initialPosition robot.instructions)) 
+                scents 
+                robots
+    in
+        Tuple.second scentsAndFinalPositions
     
 
-updateRobot : Mars -> RobotPosition -> List RobotInstruction -> RobotPosition
-updateRobot mars robotInitialPosition robotInstructions =
-    List.foldl (updateRobotPosition mars []) robotInitialPosition robotInstructions
+updateRobot : Mars -> List Location -> RobotPosition -> List RobotInstruction -> RobotPosition
+updateRobot mars scents robotInitialPosition robotInstructions =
+    List.foldl (updateRobotPosition mars scents) robotInitialPosition robotInstructions
 
 updateRobotPosition : Mars -> List Location -> RobotInstruction -> RobotPosition -> RobotPosition
 updateRobotPosition mars scents robotInstruction robotPosition =

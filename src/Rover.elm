@@ -2,6 +2,7 @@ module Rover exposing (..)
 
 import List
 import List.Extra
+import Parser exposing (Parser, (|=), (|.))
 
 type alias Mars = {
     right: Int,
@@ -154,3 +155,10 @@ provisionalLocation location orientation =
             { location | y = location.y - 1 }
         West ->
             { location | x = location.x - 1 }
+
+marsParser : Parser Mars
+marsParser =
+    Parser.succeed Mars
+        |= Parser.int
+        |. Parser.spaces
+        |= Parser.int

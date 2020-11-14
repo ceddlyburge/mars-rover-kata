@@ -1,5 +1,7 @@
 module RoverTests exposing (tests)
 
+import Parser
+
 import Test exposing (..)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, list, string)
@@ -129,10 +131,10 @@ tests =
 
         , test "parse Mars" <|
             \() ->
-                parseMars "5 3"
+                Parser.run marsParser "5 3"
                 |> Expect.equal 
-                    Mars 5 3
-                    
+                    (Ok <| Mars 5 3)
+
         , test "sample data should return sample outputs" <|
             \() ->
                 rove """5 3

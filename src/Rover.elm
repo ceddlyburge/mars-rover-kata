@@ -162,3 +162,26 @@ marsParser =
         |= Parser.int
         |. Parser.spaces
         |= Parser.int
+
+robotPositionParser : Parser RobotPosition
+robotPositionParser =
+    Parser.succeed Known
+        |= locationParser
+        |. Parser.spaces
+        |= orientationParser
+
+locationParser : Parser Location
+locationParser =
+    Parser.succeed Location
+        |= Parser.int
+        |. Parser.spaces
+        |= Parser.int
+
+orientationParser : Parser Orientation
+orientationParser =
+    Parser.oneOf
+        [ Parser.map (always North) (Parser.keyword "N")
+        , Parser.map (always East) (Parser.keyword "E")
+        , Parser.map (always South) (Parser.keyword "S")
+        , Parser.map (always West) (Parser.keyword "W")
+        ]

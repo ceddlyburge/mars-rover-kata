@@ -35,7 +35,8 @@ import Rover exposing (..)
 -- done, although not well tested: calculate scents from last known locations of lost robots
 -- done: parse mars
 -- done: parse initial position of robot in to type
--- parse robot instructions in to type
+-- done: parse robot instructions in to type
+-- parse all inputs
 -- output of known position of robot (for final output)
 -- output of lost position of robot, including last know position (for final output)
 
@@ -146,6 +147,28 @@ tests =
                 Parser.run robotInstructionsParser "LRF"
                 |> Expect.equal 
                     (Ok [ RotateLeft, RotateRight, Forward ])
+
+        , test "parse mars rover inputs" <|
+            \() ->
+                Parser.run inputsParser """5 3
+1 1 E
+RFRFRFRF
+3 2 N
+FRRFLLFFRRFLL
+0 3 W
+LLFFFLFLFL"""
+                |> Expect.equal 
+                    (Ok 
+                        (
+                            Inputs
+                                sampleMars
+                                [ Robot firstSampleRobotInitialPosition firstSampleRobotInstructions
+                                , Robot secondSampleRobotInitialPosition secondSampleRobotInstructions
+                                , Robot thirdSampleRobotInitialPosition thirdSampleRobotInstructions
+                                ]
+
+                        )
+                    )
 
         , test "sample data should return sample outputs" <|
             \() ->

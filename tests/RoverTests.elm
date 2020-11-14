@@ -42,7 +42,7 @@ tests =
         [ test "rotate left instruction should rotate orienation by -90 degrees (anticlockwise)" <|
             \() ->
                 updateKnownRobotPosition (Location 1 2) North RotateLeft
-                |> Expect.equal (RobotPosition (Location 1 2) West)
+                |> Expect.equal (Known (Location 1 2) West)
             
         , test "sample data should return sample outputs" <|
             \() ->

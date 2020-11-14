@@ -93,6 +93,14 @@ tests =
                     secondSampleRobotInstructions
                 |> Expect.equal secondSampleRobotFinalPosition
 
+        , test "robot 3 sample case (prevented from becoming lost by a scent)" <|
+            \() ->
+                updateRobot 
+                    sampleMars 
+                    [ Location 3 3 ]
+                    thirdSampleRobotInitialPosition 
+                    thirdSampleRobotInstructions
+                |> Expect.equal thirdSampleRobotFinalPosition
         , test "robot 3 sample case (prevented from becoming lost by a scent from sample robot 2)" <|
             \() ->
                 updateRobots 

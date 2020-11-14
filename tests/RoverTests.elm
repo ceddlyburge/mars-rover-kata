@@ -143,9 +143,9 @@ tests =
 
         , test "parse RobotInstructions" <|
             \() ->
-                Parser.run robotInstructionParser "NESW"
+                Parser.run robotInstructionsParser "LRF"
                 |> Expect.equal 
-                    (Ok [ North, East, South, West ])
+                    (Ok [ RotateLeft, RotateRight, Forward ])
 
         , test "sample data should return sample outputs" <|
             \() ->

@@ -185,3 +185,23 @@ orientationParser =
         , Parser.map (always South) (Parser.keyword "S")
         , Parser.map (always West) (Parser.keyword "W")
         ]
+
+robotInstructionsParser : Parser (List RobotInstruction)
+robotInstructionsParser =
+    Parser.sequence
+        { start = ""
+        , separator = ""
+        , end = ""
+        , spaces = (Parser.chompWhile (\c -> False))
+        , item = robotInstructionParser
+        , trailing = Parser.Optional
+        }
+
+robotInstructionParser : Parser RobotInstruction
+robotInstructionParser =
+    Parser.oneOf
+        [ Parser.map (always Forward) (Parser.token "F")
+        , Parser.map (always RotateLeft) (Parser.token "L")
+        , Parser.map (always RotateRight) (Parser.token "R")
+        ]
+

@@ -32,24 +32,24 @@ rove inputs =
 3 3 N LOST
 2 3 S """
 
-updateRobotPosition : Mars -> RobotPosition -> RobotInstruction -> RobotPosition
-updateRobotPosition mars robotPosition robotInstruction =
+updateRobotPosition : Mars -> RobotPosition -> RobotInstruction -> List Location -> RobotPosition
+updateRobotPosition mars robotPosition robotInstruction scents =
     case robotPosition of
         Known location orientation ->
-            updateKnownRobotPosition mars location orientation robotInstruction
+            updateKnownRobotPosition mars location orientation robotInstruction scents
         Lost location ->
             Lost location
 
 
-updateKnownRobotPosition : Mars -> Location -> Orientation -> RobotInstruction -> RobotPosition
-updateKnownRobotPosition mars location orientation robotInstruction =
+updateKnownRobotPosition : Mars -> Location -> Orientation -> RobotInstruction -> List Location -> RobotPosition
+updateKnownRobotPosition mars location orientation robotInstruction scents =
     case robotInstruction of
         RotateLeft ->
             Known location (rotateLeft orientation)
         RotateRight ->
             Known location (rotateRight orientation)
         Forward ->
-            forward mars location orientation
+            forward mars location orientation scents
 
 
 rotateLeft : Orientation -> Orientation
@@ -76,13 +76,16 @@ rotateRight orientation =
         West ->
             North
 
-forward : Mars -> Location -> Orientation -> RobotPosition
-forward mars location orientation =
+forward : Mars -> Location -> Orientation -> List Location -> RobotPosition
+forward mars location orientation scents =
     let 
         robotProvisionalLocation = provisionalLocation location orientation
     in
         if isLocationLost mars robotProvisionalLocation then
-            Lost location
+            if isLocationScented location scents then
+                Known location orientation
+            else 
+                Lost location
         else
             Known robotProvisionalLocation orientation
 
@@ -93,6 +96,9 @@ isLocationLost mars location =
     || location.x > mars.right -- might be >=
     || location.y > mars.upper -- might be >=
 
+isLocationScented : Location -> List Location -> Bool
+isLocationScented location scents =
+    List.member location scents
 
 provisionalLocation : Location -> Orientation -> Location
 provisionalLocation location orientation =

@@ -242,9 +242,13 @@ outputRobotPosition : RobotPosition -> String
 outputRobotPosition robotPosition = 
     case robotPosition of
         Known location orientation ->
-            String.fromInt(location.x) ++ " " ++ String.fromInt(location.y) ++ " " ++ outputOrientation(orientation)
+            outputLocationAndOrientation location orientation
         Lost location orientation ->
-            ""
+            outputLocationAndOrientation location orientation ++ " LOST"
+
+outputLocationAndOrientation: Location -> Orientation -> String
+outputLocationAndOrientation location orientation = 
+    String.fromInt(location.x) ++ " " ++ String.fromInt(location.y) ++ " " ++ outputOrientation(orientation)
 
 outputOrientation : Orientation -> String
 outputOrientation orientation = 

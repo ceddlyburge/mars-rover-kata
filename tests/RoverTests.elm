@@ -23,11 +23,11 @@ import Rover exposing (..)
 
 -- ## tests
 -- slimed: sample data for test (input to output)
--- in progress: update robot position existing position and instruction (ignore scents)
+-- done (could test more cases): update robot position existing position and instruction (ignore scents)
+-- update robot position existing position and instruction (ignore scents), becoming lost (must update scents)
 -- parse size of grid in to type (0,0) is assumed
 -- parse initial position of robot in to type
 -- parse robot instructions in to type
--- update robot position existing position and instruction (ignore scents), becoming lost (must update scents)
 -- update robot position and scent from existing position, existing scents and instruction
 -- update robot position and scent from existing position, existing scents and instruction, becoming lost, make sure last known position is recorded
 -- update robot position and scent from lost position, becoming lost, make sure last known position is retained
@@ -53,6 +53,11 @@ tests =
                 updateKnownRobotPosition anyLocation North Forward
                 |> Expect.equal (Known { anyLocation | y = anyLocation.y + 1 } North)
         
+        , test "moving to y < 0 results in robot becoming lost, with last known position retained" <|
+            \() ->
+                updateKnownRobotPosition (Location 0 0) South Forward
+                |> Expect.equal (Lost Location 0 0)
+
         , test "sample data should return sample outputs" <|
             \() ->
                 rove """5 3

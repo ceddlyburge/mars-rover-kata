@@ -1,5 +1,7 @@
 # Mars Rover Kata
 
+[![Build status](https://ci.appveyor.com/api/projects/status/ky1vyvcmji35tbnr?svg=true)](https://ci.appveyor.com/project/ceddlyburge/mars-rover-kata)
+
 ## Instructions
 
 2- 3 hours

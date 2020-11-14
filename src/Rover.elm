@@ -36,10 +36,10 @@ rove inputs =
 
 updateRobot : Mars -> RobotPosition -> List RobotInstruction -> RobotPosition
 updateRobot mars robotPosition robotInstructions =
-    List.foldl (\instruction position -> updateRobotPosition mars position instruction [] ) robotPosition robotInstructions
+    List.foldl (updateRobotPosition mars []) robotPosition robotInstructions
 
-updateRobotPosition : Mars -> RobotPosition -> RobotInstruction -> List Location -> RobotPosition
-updateRobotPosition mars robotPosition robotInstruction scents =
+updateRobotPosition : Mars -> List Location -> RobotInstruction -> RobotPosition -> RobotPosition
+updateRobotPosition mars scents robotInstruction robotPosition =
     case robotPosition of
         Known location orientation ->
             updateKnownRobotPosition mars location orientation robotInstruction scents

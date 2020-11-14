@@ -67,7 +67,7 @@ tests =
 
         , test "lost robot remains lost, with last known position retained" <|
             \() ->
-                updateRobotPosition anyMars (Lost anyLocation) anyRobotInstruction noScents
+                updateRobotPosition anyMars  noScents anyRobotInstruction (Lost anyLocation)
                 |> Expect.equal (Lost anyLocation)
 
         , test "scent prevents robot moving to y < 0 lost position" <|

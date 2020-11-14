@@ -1,6 +1,7 @@
 module Rover exposing (..)
 
 import List
+import List.Extra
 
 type alias Mars = {
     right: Int,
@@ -34,9 +35,15 @@ rove inputs =
 3 3 N LOST
 2 3 S """
 
+updateRobots : Mars -> List RobotPosition -> List (List RobotInstruction) -> List RobotPosition
+updateRobots mars initialPositionsForRobots instructionsForRobots =
+    []
+    
+    
+
 updateRobot : Mars -> RobotPosition -> List RobotInstruction -> RobotPosition
-updateRobot mars robotPosition robotInstructions =
-    List.foldl (updateRobotPosition mars []) robotPosition robotInstructions
+updateRobot mars robotInitialPosition robotInstructions =
+    List.foldl (updateRobotPosition mars []) robotInitialPosition robotInstructions
 
 updateRobotPosition : Mars -> List Location -> RobotInstruction -> RobotPosition -> RobotPosition
 updateRobotPosition mars scents robotInstruction robotPosition =

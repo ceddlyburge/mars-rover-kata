@@ -23,14 +23,14 @@ import Rover exposing (..)
 
 -- ## tests
 -- slimed: sample data for test (input to output)
--- done (could test more cases): update robot position existing position and instruction (ignore scents)
--- update robot position existing position and instruction (ignore scents), becoming lost (must update scents)
+-- done (could test / fuzz more cases): update robot position existing position and instruction (ignore scents)
+-- done (could test / fuzz more cases): update robot position existing position and instruction (ignore scents), becoming lost (must update scents)
+-- update robot position and scent from lost position, becoming lost, make sure last known position is retained
 -- parse size of grid in to type (0,0) is assumed
 -- parse initial position of robot in to type
 -- parse robot instructions in to type
 -- update robot position and scent from existing position, existing scents and instruction
 -- update robot position and scent from existing position, existing scents and instruction, becoming lost, make sure last known position is recorded
--- update robot position and scent from lost position, becoming lost, make sure last known position is retained
 -- Aplly list of instructions to a robot, from an initial position
 -- output of known position of robot (for final output)
 -- output of lost position of robot, including last know position (for final output)
@@ -63,6 +63,11 @@ tests =
                 updateKnownRobotPosition (Mars 1 3) (Location 1 2) East Forward
                 |> Expect.equal (Lost <| Location 1 2)
 
+        , test "lost robot remains lost, with last known position retained" <|
+            \() ->
+                updateRobotPosition Lost anyLocation anyOrientation anyRobotInstruction
+                |> Expect.equal (Lost anyLocation)
+
         , test "sample data should return sample outputs" <|
             \() ->
                 rove """5 3
@@ -87,4 +92,17 @@ bigMars =
 smallLocation: Location
 smallLocation = 
     Location 0 0
+
+anyLocation: Location
+anyLocation = 
+    Location 0 0
+
+
+anyOrientation: Orientation
+anyOrientation = 
+    West
+
+anyRobotInstruction: Orientation
+anyRobotInstruction = 
+    Forward
 

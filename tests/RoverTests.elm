@@ -33,7 +33,7 @@ import Rover exposing (..)
 -- done: Apply list of instructions to a robot, from an initial position
 -- done: Apply list of instructions to list of robots, from a list of initial positions
 -- done, although not well tested: calculate scents from last known locations of lost robots
--- parse size of grid in to type (0,0) is assumed
+-- done: parse mars
 -- parse initial position of robot in to type
 -- parse robot instructions in to type
 -- output of known position of robot (for final output)
@@ -134,6 +134,12 @@ tests =
                 Parser.run marsParser "5 3"
                 |> Expect.equal 
                     (Ok <| Mars 5 3)
+
+        , test "parse initial RobotPosition" <|
+            \() ->
+                Parser.run robotPositionParser "1 1 E"
+                |> Expect.equal 
+                    (Ok ( Known (Location 1 1) East) )
 
         , test "sample data should return sample outputs" <|
             \() ->

@@ -33,7 +33,7 @@ updateKnownRobotPosition location orientation robotInstruction=
         RotateLeft ->
             Known location (rotateLeft orientation)
         RotateRight ->
-            Known location orientation
+            Known location (rotateRight orientation)
         Forward ->
             Known location orientation
 
@@ -50,3 +50,14 @@ rotateLeft orientation =
         West ->
             South
 
+rotateRight : Orientation -> Orientation
+rotateRight orientation =
+    case orientation of
+        North ->
+            East
+        East ->
+            South
+        South ->
+            West
+        West ->
+            North
